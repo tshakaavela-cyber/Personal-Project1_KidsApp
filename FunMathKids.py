@@ -620,6 +620,8 @@
 #     app = FunMathKidsApp(window)
 #     window.mainloop()
 # import random
+
+import random  # <-- Make sure this line is here!
 import time
 import os
 
