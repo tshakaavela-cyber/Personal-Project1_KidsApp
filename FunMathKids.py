@@ -621,12 +621,84 @@
 #     window.mainloop()
 # import random
 
-import random  # <-- Make sure this line is here!
+# import random  # <-- Make sure this line is here!
+# import time
+# import os
+
+# def clear_screen():
+#     # Clears the terminal screen so it looks clean like a game window
+#     os.system('clear')
+
+# def play_game():
+#     clear_screen()
+#     print("=" * 40)
+#     print("       🧮 FUNMATH KIDS SA 🌟       ")
+#     print("=" * 40)
+#     print("1. English")
+#     print("2. Afrikaans")
+#     print("=" * 40)
+    
+#     choice = input("Choose language / Kies taal (1 or 2): ").strip()
+#     language = "Afrikaans" if choice == "2" else "English"
+    
+#     score = 0
+#     clear_screen()
+    
+#     if language == "English":
+#         print("🎉 Welcome to Fun Math Kids! Let's play! 🎉\n")
+#     else:
+#         print("🎉 Welkom by Pret Wiskunde! Kom ons speel! 🎉\n")
+#     time.sleep(2)
+
+#     # Play 5 rounds of math!
+#     for round_num in range(1, 6):
+#         clear_screen()
+#         num1 = random.randint(1, 10)
+#         num2 = random.randint(1, 10)
+#         correct_answer = num1 + num2
+        
+#         print(f"--- Round {round_num} / 5 | Score: {score} ---")
+#         if language == "English":
+#             print(f"What is {num1} + {num2}?")
+#             guess = input("Your answer: ")
+#         else:
+#             print(f"Wat is {num1} + {num2}?")
+#             guess = input("Jou antwoord: ")
+
+#         # Check the answer
+#         if guess.isdigit() and int(guess) == correct_answer:
+#             score += 1
+#             if language == "English":
+#                 print("\n✔️ Awesome Job! 🎉")
+#             else:
+#                 print("\n✔️ Mooi so! 🎉")
+#         else:
+#             if language == "English":
+#                 print(f"\n❌ Try Again! The correct answer was {correct_answer}. 🦊")
+#             else:
+#                 print(f"\n❌ Probeer weer! Die regte antwoord was {correct_answer}. 🦊")
+                
+#         time.sleep(2.5) # Let them read the feedback before clearing
+
+#     # Game Over Screen
+#     clear_screen()
+#     print("=" * 40)
+#     if language == "English":
+#         print("          🎮 GAME OVER! 🎮          ")
+#         print(f"       Your Final Score: {score} / 5      ")
+#     else:
+#         print("          🎮 SPEL VERBY! 🎮          ")
+#         print(f"       Jou Finale Telling: {score} / 5     ")
+#     print("=" * 40)
+#     print("\nThanks for playing! / Dankie dat jy gespeel het!")
+
+# if __name__ == "__main__":
+#     play_game()
+import random
 import time
 import os
 
 def clear_screen():
-    # Clears the terminal screen so it looks clean like a game window
     os.system('clear')
 
 def play_game():
@@ -650,19 +722,46 @@ def play_game():
         print("🎉 Welkom by Pret Wiskunde! Kom ons speel! 🎉\n")
     time.sleep(2)
 
-    # Play 5 rounds of math!
+    # Play 5 rounds of fully mixed math!
     for round_num in range(1, 6):
         clear_screen()
+        
+        # Pick default random numbers
         num1 = random.randint(1, 10)
         num2 = random.randint(1, 10)
-        correct_answer = num1 + num2
         
+        # Randomly choose an operation: +, -, *, or /
+        operation = random.choice(['+', '-', '*', '/'])
+        
+        if operation == '+':
+            correct_answer = num1 + num2
+            symbol = "+"
+        elif operation == '-':
+            # Make sure the bigger number is first so we don't get negatives!
+            if num1 < num2:
+                num1, num2 = num2, num1
+            correct_answer = num1 - num2
+            symbol = "-"
+        elif operation == '*':
+            # Keep multiplication smaller and easier
+            num1 = random.randint(1, 5)
+            num2 = random.randint(1, 5)
+            correct_answer = num1 * num2
+            symbol = "x"
+        elif operation == '/':
+            # Trick to get whole numbers: multiply two small numbers first!
+            answer_factor = random.randint(1, 5)
+            num2 = random.randint(1, 5)
+            num1 = answer_factor * num2  # e.g., 15 if answer is 3 and num2 is 5
+            correct_answer = answer_factor
+            symbol = "÷"
+
         print(f"--- Round {round_num} / 5 | Score: {score} ---")
         if language == "English":
-            print(f"What is {num1} + {num2}?")
+            print(f"What is {num1} {symbol} {num2}?")
             guess = input("Your answer: ")
         else:
-            print(f"Wat is {num1} + {num2}?")
+            print(f"Wat is {num1} {symbol} {num2}?")
             guess = input("Jou antwoord: ")
 
         # Check the answer
@@ -678,7 +777,7 @@ def play_game():
             else:
                 print(f"\n❌ Probeer weer! Die regte antwoord was {correct_answer}. 🦊")
                 
-        time.sleep(2.5) # Let them read the feedback before clearing
+        time.sleep(2.5)
 
     # Game Over Screen
     clear_screen()
